@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mass-relay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mass-relay
+  template:
+    metadata:
+      labels:
+        name: mass-relay
+    spec:
+      serviceAccountName: mass-relay
+      containers:
+        - name: mass-relay
+          # Replace this with the built image name
+          image: firstofth300/mass-relay@sha256:7f780f4eb2b8c0dd40f014e19d5a1e3b01e75150fc1fa1a5b9efbc340ce4765a
+          command:
+          - mass-relay
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "mass-relay"

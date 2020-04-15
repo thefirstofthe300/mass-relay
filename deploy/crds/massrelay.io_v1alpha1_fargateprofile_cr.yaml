@@ -1,0 +1,15 @@
+apiVersion: massrelay.io/v1alpha1
+kind: FargateProfile
+metadata:
+  name: example-fargateprofile
+spec:
+  name: test
+  podExecutionRoleArn: test
+  selectors:
+    - namespace: default
+      labels:
+        test: hello
+  subnets:
+    - test
+  tags:
+    test: test
